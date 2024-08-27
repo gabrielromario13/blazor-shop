@@ -14,15 +14,14 @@ public class CategoryService(AppDbContext context) : ICategoryService
 
     public async Task<ServiceResponse<List<Category>>> DeleteCategory(int id)
     {
-        Category category = await GetCategoryById(id);
-        if (category == null)
-        {
+        var category = await GetCategoryById(id);
+
+        if (category is null)
             return new ServiceResponse<List<Category>>
             {
                 Success = false,
                 Message = "Category not found."
             };
-        }
 
         category.Deleted = true;
         await _context.SaveChangesAsync();
@@ -40,6 +39,7 @@ public class CategoryService(AppDbContext context) : ICategoryService
         var categories = await _context.Categories
             .Where(c => !c.Deleted)
             .ToListAsync();
+
         return new ServiceResponse<List<Category>>
         {
             Data = categories
@@ -51,6 +51,7 @@ public class CategoryService(AppDbContext context) : ICategoryService
         var categories = await _context.Categories
             .Where(c => !c.Deleted && c.Visible)
             .ToListAsync();
+
         return new ServiceResponse<List<Category>>
         {
             Data = categories
@@ -60,14 +61,13 @@ public class CategoryService(AppDbContext context) : ICategoryService
     public async Task<ServiceResponse<List<Category>>> UpdateCategory(Category category)
     {
         var dbCategory = await GetCategoryById(category.Id);
-        if (dbCategory == null)
-        {
+
+        if (dbCategory is null)
             return new ServiceResponse<List<Category>>
             {
                 Success = false,
                 Message = "Category not found."
             };
-        }
 
         dbCategory.Name = category.Name;
         dbCategory.Url = category.Url;

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorShop.Api.Controllers;
 
@@ -10,7 +8,7 @@ public class PaymentController(IPaymentService paymentService) : ControllerBase
 {
     private readonly IPaymentService _paymentService = paymentService;
 
-    [HttpPost("checkout"), Authorize]
+    [HttpPost("checkout")]
     public async Task<ActionResult<string>> CreateCheckoutSession()
     {
         var session = await _paymentService.CreateCheckoutSession();

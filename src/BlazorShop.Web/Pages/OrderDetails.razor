@@ -34,7 +34,7 @@ else
     [Parameter]
     public int OrderId { get; set; }
 
-    OrderDetailsResponse order = null;
+    OrderDetailsResponse order = null!;
 
     protected override async Task OnInitializedAsync()
     {

@@ -35,7 +35,8 @@ public class OrderService(AppDbContext context,
         };
 
         order.OrderItems.ForEach(item =>
-        orderDetailsResponse.Products.Add(new OrderDetailsProductResponse { 
+        orderDetailsResponse.Products.Add(new OrderDetailsProductResponse
+        {
             ProductId = item.ProductId,
             ImageUrl = item.Product.ImageUrl,
             ProductType = item.ProductType.Name,

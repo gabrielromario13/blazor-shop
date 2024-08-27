@@ -16,11 +16,8 @@ public class OrderService(HttpClient client,
         return result.Data;
     }
 
-    public async Task<List<OrderOverviewResponse>> GetOrders()
-    {
-        var result = await _client.GetFromJsonAsync<ServiceResponse<List<OrderOverviewResponse>>>("api/order");
-        return result.Data;
-    }
+    public async Task<List<OrderOverviewResponse>> GetOrders() =>
+        (await _client.GetFromJsonAsync<ServiceResponse<List<OrderOverviewResponse>>>("api/order"))!.Data!;
 
     public async Task<string> PlaceOrder()
     {
@@ -31,12 +28,9 @@ public class OrderService(HttpClient client,
             return url;
         }
         else
-        {
             return "login";
-        }
     }
-    private async Task<bool> IsUserAuthenticated()
-    {
-        return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
-    }
+
+    private async Task<bool> IsUserAuthenticated() =>
+        (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity!.IsAuthenticated;
 }

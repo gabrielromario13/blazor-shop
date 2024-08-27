@@ -113,7 +113,7 @@ public class CartService(AppDbContext context, IAuthService authService) : ICart
         var dbCartItem = await _context.CartItems
             .FirstOrDefaultAsync(ci => ci.ProductId == productId &&
             ci.ProductTypeId == productTypeId && ci.UserId == _authService.GetUserId());
-        
+
         if (dbCartItem is null)
             return new ServiceResponse<bool>
             {

@@ -6,17 +6,17 @@ using System.Text.Json;
 namespace BlazorShop.Web;
 
 public class CustomAuthStateProvider(
-    ILocalStorageService localStorageService,
-    HttpClient client) : AuthenticationStateProvider
+    HttpClient client,
+    ILocalStorageService localStorageService) : AuthenticationStateProvider
 {
-    private readonly ILocalStorageService _localStorageService = localStorageService;
     private readonly HttpClient _client = client;
+    private readonly ILocalStorageService _localStorageService = localStorageService;
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         string? authToken = await _localStorageService.GetItemAsStringAsync("authToken");
 
-        var identity = new ClaimsIdentity();
+        ClaimsIdentity identity = new();
         _client.DefaultRequestHeaders.Authorization = null;
 
         if (!string.IsNullOrEmpty(authToken))
@@ -30,7 +30,6 @@ public class CustomAuthStateProvider(
             catch
             {
                 await _localStorageService.RemoveItemAsync("authToken");
-                identity = new ClaimsIdentity();
             }
         }
 

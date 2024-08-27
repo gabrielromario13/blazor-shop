@@ -10,10 +10,11 @@ global using BlazorShop.Web.Services.ProductService;
 global using BlazorShop.Web.Services.ProductTypeService;
 global using Microsoft.AspNetCore.Components.Authorization;
 global using System.Net.Http.Json;
+using Blazored.LocalStorage;
+using BlazorShop.Common;
 using BlazorShop.Web;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Blazored.LocalStorage;
 using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -23,7 +24,15 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddMudServices();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5256") });
+//builder.Services.AddHttpClient(WebConfiguration.HttpClientName,
+//    opt =>
+//    {
+//        opt.BaseAddress = new Uri(Configuration.BackendUrl);
+//    });
+builder.Services.AddScoped(sp => new HttpClient
+{
+    BaseAddress = new Uri(Configuration.BackendUrl)
+});
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -35,7 +44,6 @@ builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
-
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 
 await builder.Build().RunAsync();

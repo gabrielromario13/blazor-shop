@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorShop.Api.Controllers;
 
@@ -10,28 +8,28 @@ public class ProductController(IProductService productService) : ControllerBase
 {
     private readonly IProductService _productService = productService;
 
-    [HttpGet("admin"), Authorize(Roles = "Admin")]
+    [HttpGet("admin")]
     public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAdminProducts()
     {
         var result = await _productService.GetAdminProducts();
         return Ok(result);
     }
 
-    [HttpPost, Authorize(Roles = "Admin")]
+    [HttpPost]
     public async Task<ActionResult<ServiceResponse<Product>>> CreateProduct(Product product)
     {
         var result = await _productService.CreateProduct(product);
         return Ok(result);
     }
 
-    [HttpPut, Authorize(Roles = "Admin")]
+    [HttpPut]
     public async Task<ActionResult<ServiceResponse<Product>>> UpdateProduct(Product product)
     {
         var result = await _productService.UpdateProduct(product);
         return Ok(result);
     }
 
-    [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult<ServiceResponse<bool>>> DeleteProduct(int id)
     {
         var result = await _productService.DeleteProduct(id);

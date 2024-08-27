@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace BlazorShop.Common.Responses;
+﻿namespace BlazorShop.Common.Responses;
 
 public class ServiceResponse<T>
 {

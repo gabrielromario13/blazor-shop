@@ -3,15 +3,15 @@
 namespace BlazorShop.Web.Services.CartService;
 
 public class CartService(
+    HttpClient client,
     ILocalStorageService localStorage,
-    IAuthService authService,
-    HttpClient client) : ICartService
+    IAuthService authService) : ICartService
 {
+    private readonly HttpClient _client = client;
     private readonly ILocalStorageService _localStorage = localStorage;
     private readonly IAuthService _authService = authService;
-    private readonly HttpClient _client = client;
 
-    public event Action OnChange = null!;
+    public event Action OnChange;
 
     public async Task AddToCart(CartItem cartItem)
     {
@@ -42,7 +42,7 @@ public class CartService(
         if (await _authService.IsUserAuthenticated())
         {
             var result = await _client.GetFromJsonAsync<ServiceResponse<int>>("api/cart/count");
-            var count = result.Data;
+            var count = result!.Data;
 
             await _localStorage.SetItemAsync<int>("cartItemsCount", count);
         }

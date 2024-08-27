@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace BlazorShop.Api.Controllers;
@@ -35,7 +34,7 @@ public class AuthController(IAuthService authService) : ControllerBase
             : Ok(response);
     }
 
-    [HttpPost("change-password"), Authorize]
+    [HttpPost("change-password")]
     public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword([FromBody] string newPassword)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

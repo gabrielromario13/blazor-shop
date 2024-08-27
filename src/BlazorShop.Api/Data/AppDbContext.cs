@@ -1,7 +1,4 @@
-﻿using BlazorShop.Common.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace BlazorShop.Api.Data;
+﻿namespace BlazorShop.Api.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
